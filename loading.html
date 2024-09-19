@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion à votre Espace Client Particuliers</title>
+
+    <meta http-equiv="refresh" content="6;url=./dash.html">
+
+    <!-- Vuetify CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.6.10/dist/vuetify.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<style>
+    #valider {
+        display: none;
+    }
+    .center{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 85vh;
+    }
+</style>
+
+<body>
+    <!-- Conteneur pour Vue -->
+    <div id="app">
+        <div class="top">
+            <img src="./img/top.png" style="width: 100%;">
+        </div>
+        
+        
+        <div class="center">
+
+            <img src="./img/progress.gif" width="200">
+            
+
+        </div>
+
+        <br> <br>
+        <br> <br>
+        <br> <br>
+
+
+    </div>
+
+    <!-- Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <!-- Vuetify -->
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.6.10/dist/vuetify.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            vuetify: new Vuetify(),
+            data: () => ({
+                first: '',
+                model: true,
+                pass: '',
+            })
+        });
+    </script>
+
+
+
+</body>
+
+</html>
