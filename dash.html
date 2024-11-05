@@ -280,12 +280,12 @@
                             <v-alert close-label="Fermer l'alerte" color="deep-purple accent-4" outlined dismissible>
                                 <strong>Alert !</strong>
                                 <br />
+                                <br />
 
                                 <h5>Votre gestionnaire : <span style="color: black;"> Mr Durant Thomas</span></h5>
                                 <h5>Statut du compte : <span style="color: rgb(164, 9, 9);"> votre compte est
-                                        bloquer</span></h5> <br>
+                                        bloquer</span></h5>
                                 <h5>Solde principal : <v-chip outlined class="green--text">960.000,16 €</v-chip></h5>
-                                <br>
                                 <h5>Frais de debloquage : <v-chip outlined class="red--text"> 25.000 €</v-chip></h5>
 
 
@@ -672,7 +672,7 @@
                             required></v-text-field>
                         <v-text-field v-model="libelle" label="Libellé" variant="outlined" clearable
                             required></v-text-field>
-                            <br>
+                        <br>
 
                         <!-- <v-btn type="submit" block color="red" class="white--text">Valider</v-btn> -->
                     </form>
@@ -689,8 +689,15 @@
                         <v-card title="Dialog">
                             <v-card-text>
                                 <br>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua.
+                                <svg style="color: #c5273a;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="lucide lucide-circle-alert">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <line x1="12" x2="12" y1="8" y2="12" />
+                                    <line x1="12" x2="12.01" y1="16" y2="16" />
+                                </svg>
+                                <br>
+                              <p> Votre compte est temporairement bloqué. Des frais de réactivation de 25.000 € sont requis pour le déblocage. Une fois réactivé, vous pourrez à nouveau effectuer des transactions. </p>
                             </v-card-text>
 
                             <v-card-actions>
