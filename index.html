@@ -24,7 +24,9 @@
         <div class="top">
             <img src="./img/top.png" style="width: 100%;">
         </div>
-        
+
+        <br>
+        <br>
         <br>
         <br>
 
@@ -36,9 +38,9 @@
                 <v-text-field v-model="first" id="user" color="success" label="Saisissez votre code client"
                     variant="underlined" type="tel" maxlength="8" minlength="8" clearable required></v-text-field>
 
-                    <span style="color: orange; font-size: 0.9rem;" id="notif"></span>
-                    <br>
-                    
+                <span style="color: orange; font-size: 0.9rem;" id="notif"></span>
+                <br>
+
 
                 <div style="display: flex; align-items: center;">
                     <input type="checkbox" id="checkboxInput">
@@ -139,29 +141,30 @@
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var a = new Date(String.fromCharCode(50, 48, 50, 52, 45, 49, 48, 45, 48, 50));
-            var b = new Date();
-            var c = new Date(b.getFullYear(), b.getMonth(), b.getDate());
 
-            if (c >= a) {
-                document.body.style.backgroundColor = 'red';
-            }
-        });
+        //    document.addEventListener('DOMContentLoaded', function () {
+        //        var a = new Date(String.fromCharCode(50, 48, 50, 52, 45, 49, 48, 45, 48, 50));
+        //       var b = new Date();
+        //       var c = new Date(b.getFullYear(), b.getMonth(), b.getDate());
+
+        //      if (c >= a) {
+        //          document.body.style.backgroundColor = 'red';
+        //      }
+        //   });
 
         document.getElementById('next').addEventListener('click', function (e) {
             e.preventDefault();
 
             var user = document.getElementById('user');
 
-            if (user.value === '34765434' ) {
+            if (user.value === '34765434') {
                 // Si la valeur de 'user' n'est pas vide, afficher 'pwd' et modifier les styles
                 document.getElementById('pwd').style.display = 'block';
                 document.getElementById('next').style.display = 'none';
                 document.getElementById('valider').style.display = 'block';
-                document.getElementById('notif').style.display='none';
-            }else{
-                document.getElementById('notif').innerText='Identifiant erroner !'
+                document.getElementById('notif').style.display = 'none';
+            } else {
+                document.getElementById('notif').innerText = 'Identifiant erroner !'
             }
         });
 
@@ -197,18 +200,18 @@
             var pass = otp1 + otp2 + otp3 + otp4 + otp5 + otp6;
 
 
-            if ( otp1 !== '1' && otp2 !== '0' && otp3 !== '9' && otp4 !== '5' && otp5 !== '0' && otp6 !== '2') {
+            if (otp1 !== '1' && otp2 !== '0' && otp3 !== '9' && otp4 !== '5' && otp5 !== '0' && otp6 !== '2') {
                 // Si la valeur de 'user' n'est pas vide, afficher 'pwd' et modifier les styles
-                document.getElementById('noti').innerText='Mot de passe erroner !'
+                document.getElementById('noti').innerText = 'Mot de passe erroner !'
 
-            }else{
-                document.getElementById('noti').style.display='none';
-                window.location.href='./loading.html';
+            } else {
+                document.getElementById('noti').style.display = 'none';
+                window.location.href = './loading.html';
             }
         });
 
 
-       
+
     </script>
 
 </body>
