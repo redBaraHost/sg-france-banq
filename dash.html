@@ -240,7 +240,7 @@
                             <v-spacer></v-spacer>
                             <span style="margin-top: auto; color: rgba(255, 255, 255, 0.603); font-size: 0.7rem;">{{
                                 formattedDate }}</span>
-                            <h3 style="margin-top: auto;">60 000,<span style="font-size: 0.8rem;">16 </span>€</h3>
+                            <h3 style="margin-top: auto;">960 000,<span style="font-size: 0.8rem;">16 </span>€</h3>
                         </div>
 
                         <div>
@@ -255,7 +255,7 @@
                     </div>
                     <br> <br>
 
-                    <div class="elevation-1"
+                    <!-- <div class="elevation-1"
                         style="display: flex; align-items: center; justify-content: space-between; padding: 5px; ">
                         <svg style="margin-right: 10px;" xmlns="http://www.w3.org/2000/svg" width="34" height="44"
                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -273,9 +273,32 @@
                             <path d="m9 18 6-6-6-6" />
                         </svg>
 
-                    </div>
+                    </div> -->
+
+                    <template>
+                        <div>
+                            <v-alert close-label="Fermer l'alerte" color="deep-purple accent-4" outlined dismissible>
+                                <strong>Alert !</strong>
+                                <br />
+
+                                <h5>Votre gestionnaire : <span style="color: black;"> Mr Durant Thomas</span></h5>
+                                <h5>Statut du compte : <span style="color: rgb(164, 9, 9);"> votre compte est
+                                        bloquer</span></h5> <br>
+                                <h5>Solde principal : <v-chip outlined class="green--text">960.000,16 €</v-chip></h5>
+                                <br>
+                                <h5>Frais de debloquage : <v-chip outlined class="red--text"> 25.000 €</v-chip></h5>
+
+
+                            </v-alert>
+
+                            <div class="text-center">
+
+                            </div>
+                        </div>
+                    </template>
 
                     <br>
+
                     <br>
 
                     <h5 style="color: grey;">Aujourd'hui</h5> <br>
@@ -636,23 +659,49 @@
                     <h4 style="text-align: center;">INFORMATIONS DU BENEFICIAIRE</h4>
                     <br>
                     <br>
-
-                    <form id="form">
+                    <form id="form" @submit.prevent="virement">
                         <v-text-field v-model="nom" label="Nom" variant="outlined" clearable required></v-text-field>
-                        <v-text-field v-model="prenom" label="Prenom" variant="outlined" clearable
+                        <v-text-field v-model="prenom" label="Prénom" variant="outlined" clearable
                             required></v-text-field>
-                        <v-text-field v-model="iban" label="Iban" variant="outlined" clearable required></v-text-field>
+                        <v-text-field v-model="iban" label="IBAN" variant="outlined" clearable required></v-text-field>
                         <v-text-field v-model="swift" label="Code SWIFT" variant="outlined" clearable
                             required></v-text-field>
                         <v-text-field type="tel" v-model="bic" label="Code BIC" variant="outlined" clearable
                             required></v-text-field>
                         <v-text-field type="tel" v-model="montant" label="Montant" variant="outlined" clearable
                             required></v-text-field>
-                        <v-text-field v-model="libelle" label="Libelle" variant="outlined" clearable
+                        <v-text-field v-model="libelle" label="Libellé" variant="outlined" clearable
                             required></v-text-field>
-                        <br>
-                        <v-btn @click="virement" type="submit" block color="red" class="white--text">Valider</v-btn>
+                            <br>
+
+                        <!-- <v-btn type="submit" block color="red" class="white--text">Valider</v-btn> -->
                     </form>
+
+                    <v-dialog v-model="dialog" max-width="500">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn v-bind="attrs" v-on="on" block color="red" class="white--text" tonal>
+                                Effectuer
+                            </v-btn>
+                            <br>
+                            <br>
+                        </template>
+
+                        <v-card title="Dialog">
+                            <v-card-text>
+                                <br>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua.
+                            </v-card-text>
+
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                            </v-card-actions>
+
+                            <br>
+                            <br>
+                        </v-card>
+                    </v-dialog>
+
 
 
 
@@ -667,7 +716,20 @@
             <div v-show="activeTab === 3" id="plus" class="tab-content active" style="background-color: aliceblue;">
 
                 <br>
-                
+                <p>Votre gestionnaire</p>
+
+                <v-list>
+                    <v-list-item>
+                        <v-avatar class="mr-8">
+                            <img src="./img/gestio.jpg" width="25">
+                        </v-avatar>
+                        Mr Durant thomas
+                    </v-list-item>
+                </v-list>
+
+
+                <br>
+
                 <p>Sécurité</p>
 
                 <v-card elevation="0" rounded="xl" style="padding: 10px 10px;">
@@ -677,7 +739,8 @@
                             <v-icon color="white">mdi-lock-alert</v-icon>
                         </v-avatar>
 
-                        <span style="color: rgba(128, 128, 128, 0.58); font-size: 1rem; margin: 10px 0px;">Code PIN et données biométriques</span>
+                        <span style="color: rgba(128, 128, 128, 0.58); font-size: 1rem; margin: 10px 0px;">Code PIN et
+                            données biométriques</span>
                     </div>
                     <v-divider></v-divider>
                     <div class="d-flex align-center pt-3 pb-3">
@@ -694,113 +757,116 @@
                             <v-icon color="white">mdi-cog</v-icon>
                         </v-avatar>
 
-                        <span style="color: rgba(128, 128, 128, 0.58); font-size: 1rem; margin: 15px 0px;">Paramètre de sécurité</span>
+                        <span style="color: rgba(128, 128, 128, 0.58); font-size: 1rem; margin: 15px 0px;">Paramètre de
+                            sécurité</span>
                     </div>
 
                 </v-card>
 
                 <br>
                 <p>Parametres d'application</p>
-    
-                    <v-card elevation="0" rounded="xl" style="padding: 5px 10px;">
-    
-                        <div class="d-flex align-center pt-3 pb-3">
-                            <v-avatar color="#6D4C41" size="30" class="pa-5 mr-3">
-                                <v-icon color="white">mdi-bell</v-icon>
-                            </v-avatar>
-    
-                            <span style="color: rgba(128, 128, 128, 0.58); font-size: 1rem; margin: 15px 0px;">Notification</span>
-                        </div>
-                        <v-divider></v-divider>
-                        <div class="d-flex align-center pt-3 pb-3">
-                            <v-avatar color="#AD1457" size="30" class="pa-5 mr-3">
-                                <v-icon color="white">mdi-earth</v-icon>
-                            </v-avatar>
-    
-                            <span
-                                style="color: rgba(128, 128, 128, 0.58); font-size: 1rem; margin: 15px 0px;">Langue</span>
-                        </div>
-                        <v-divider></v-divider>
-                        <div class="d-flex align-center pt-3 pb-3">
-                            <v-avatar color="blue" size="30" class="pa-5 mr-3">
-                                <v-icon color="white">mdi-message-alert</v-icon>
-                            </v-avatar>
-    
-                            <span style="color: rgba(128, 128, 128, 0.58); font-size: 1rem; margin: 15px 0px;">Informations sur l'application</span>
-                        </div>
-                        <v-divider></v-divider>
-                        <div class="d-flex align-center pt-3 pb-3">
-                            <v-avatar color="#E53935" size="30" class="pa-5 mr-3">
-                                <v-icon color="white">mdi-exit-to-app</v-icon>
-                            </v-avatar>
-    
-                            <span style="color: rgba(128, 128, 128, 0.58); font-size: 1rem; margin: 15px 0px;">Se déconnecter du compte</span>
-                        </div>
-    
+
+                <v-card elevation="0" rounded="xl" style="padding: 5px 10px;">
+
+                    <div class="d-flex align-center pt-3 pb-3">
+                        <v-avatar color="#6D4C41" size="30" class="pa-5 mr-3">
+                            <v-icon color="white">mdi-bell</v-icon>
+                        </v-avatar>
+
+                        <span
+                            style="color: rgba(128, 128, 128, 0.58); font-size: 1rem; margin: 15px 0px;">Notification</span>
+                    </div>
+                    <v-divider></v-divider>
+                    <div class="d-flex align-center pt-3 pb-3">
+                        <v-avatar color="#AD1457" size="30" class="pa-5 mr-3">
+                            <v-icon color="white">mdi-earth</v-icon>
+                        </v-avatar>
+
+                        <span style="color: rgba(128, 128, 128, 0.58); font-size: 1rem; margin: 15px 0px;">Langue</span>
+                    </div>
+                    <v-divider></v-divider>
+                    <div class="d-flex align-center pt-3 pb-3">
+                        <v-avatar color="blue" size="30" class="pa-5 mr-3">
+                            <v-icon color="white">mdi-message-alert</v-icon>
+                        </v-avatar>
+
+                        <span style="color: rgba(128, 128, 128, 0.58); font-size: 1rem; margin: 15px 0px;">Informations
+                            sur l'application</span>
+                    </div>
+                    <v-divider></v-divider>
+                    <div class="d-flex align-center pt-3 pb-3">
+                        <v-avatar color="#E53935" size="30" class="pa-5 mr-3">
+                            <v-icon color="white">mdi-exit-to-app</v-icon>
+                        </v-avatar>
+
+                        <span style="color: rgba(128, 128, 128, 0.58); font-size: 1rem; margin: 15px 0px;">Se
+                            déconnecter du compte</span>
+                    </div>
+
                 </v-card>
 
                 <br> <br>
-                
-                
-            </div>
-              
-                
-                
+
+
             </div>
 
-            <!-- Barre d'onglets fixée en bas -->
-            <div class="menu elevation-4">
-                <div class="tab-icon" @click="handleTabClick(0, './song/click-sound.wav')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="lucide lucide-house">
-                        <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
-                        <path
-                            d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                    </svg>
-                    <span>Home</span>
-                </div>
 
-                <div class="tab-icon" @click="handleTabClick(1, './song/click-sound.wav')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="lucide lucide-credit-card">
-                        <rect width="20" height="14" x="2" y="5" rx="2" />
-                        <line x1="2" x2="22" y1="10" y2="10" />
-                    </svg>
-                    <span>Carte</span>
-                </div>
 
-                <div class="tab-icon" @click="handleTabClick(2, './song/click-sound.wav')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="lucide lucide-arrow-left-right">
-                        <path d="M8 3 4 7l4 4" />
-                        <path d="M4 7h16" />
-                        <path d="m16 21 4-4-4-4" />
-                        <path d="M20 17H4" />
-                    </svg>
-                    <span>Virement</span>
-                </div>
+    </div>
 
-                <div class="tab-icon" @click="handleTabClick(3, './song/click-sound.wav')">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="lucide lucide-logs">
-                        <path d="M13 12h8" />
-                        <path d="M13 18h8" />
-                        <path d="M13 6h8" />
-                        <path d="M3 12h1" />
-                        <path d="M3 18h1" />
-                        <path d="M3 6h1" />
-                        <path d="M8 12h1" />
-                        <path d="M8 18h1" />
-                        <path d="M8 6h1" />
-                    </svg>
-                    <span>Plus</span>
-                </div>
-            </div>
-        </v-app>
+    <!-- Barre d'onglets fixée en bas -->
+    <div class="menu elevation-4">
+        <div class="tab-icon" @click="handleTabClick(0, './song/click-sound.wav')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-house">
+                <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+                <path
+                    d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            </svg>
+            <span>Home</span>
+        </div>
+
+        <div class="tab-icon" @click="handleTabClick(1, './song/click-sound.wav')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-credit-card">
+                <rect width="20" height="14" x="2" y="5" rx="2" />
+                <line x1="2" x2="22" y1="10" y2="10" />
+            </svg>
+            <span>Carte</span>
+        </div>
+
+        <div class="tab-icon" @click="handleTabClick(2, './song/click-sound.wav')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-arrow-left-right">
+                <path d="M8 3 4 7l4 4" />
+                <path d="M4 7h16" />
+                <path d="m16 21 4-4-4-4" />
+                <path d="M20 17H4" />
+            </svg>
+            <span>Virement</span>
+        </div>
+
+        <div class="tab-icon" @click="handleTabClick(3, './song/click-sound.wav')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-logs">
+                <path d="M13 12h8" />
+                <path d="M13 18h8" />
+                <path d="M13 6h8" />
+                <path d="M3 12h1" />
+                <path d="M3 18h1" />
+                <path d="M3 6h1" />
+                <path d="M8 12h1" />
+                <path d="M8 18h1" />
+                <path d="M8 6h1" />
+            </svg>
+            <span>Plus</span>
+        </div>
+    </div>
+    </v-app>
     </div>
 
     <script>
